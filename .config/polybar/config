@@ -1,0 +1,496 @@
+[colors]
+background = ${xrdb:color8:#629ca3}
+foreground = ${xrdb:color15:#8ce0e9}
+active = #308ca7
+inactive = #216072
+highlight = ${xrdb:color2:#4270A6}
+error = ${xrdb:color9:#3470A8}
+
+[bar/wpgtk]
+monitor = DVI-D-0
+width = 100%
+height = 30
+;offset-y = 0%
+radius = 0.0
+bottom = false
+;separator = |
+fixed-center = true
+wm-restack = bspwm
+override-redirect = true
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 0
+label-line-color = #f00
+
+border-size = 0
+border-color = #00000000
+
+padding-left = 0
+padding-right = 0
+
+;module-margin-left = 0
+;module-margin-right = 0
+module-margin = 1
+
+font-0 = "Misc Termsyn:size=12;1"
+font-1 = "Wuncon Siji:size=12;1"
+font-2 = "xos4 Terminus:size=12;2"
+font-3 = "Material Icons:style=Regular"
+
+modules-left = menu
+modules-center = mpd
+modules-right = window_switch pavolume date sysmenu
+
+tray-position = right
+tray-padding = 1
+tray-background = ${colors.background}
+
+[module/mpd]
+type = internal/mpd
+
+; Host where mpd is running (either ip or domain name)
+; Can also be the full path to a unix socket where mpd is running.
+;;host = 127.0.0.1
+;;port = 6600
+;;password = mysecretpassword
+
+; Seconds to sleep between progressbar/song timer sync
+; Default: 1
+interval = 2
+
+; Available tags:
+;   <label-song> (default)
+;   <label-time>
+;   <bar-progress>
+;   <toggle> - gets replaced with <icon-(pause|play)>
+;   <toggle-stop> - gets replaced with <icon-(stop|play)>
+;   <icon-random>
+;   <icon-repeat>
+;   <icon-repeatone> (deprecated)
+;   <icon-single> - Toggle playing only a single song. Replaces <icon-repeatone>
+;   <icon-consume>
+;   <icon-prev>
+;   <icon-stop>
+;   <icon-play>
+;   <icon-pause>
+;   <icon-next>
+;   <icon-seekb>
+;   <icon-seekf>
+format-online =  <label-song>  <icon-prev> <icon-stop> <toggle> <icon-next>
+
+;format-playing = ${self.format-online}
+;format-paused = ${self.format-online}
+;format-stopped = ${self.format-online}
+
+; Available tags:
+;   <label-offline>
+;format-offline = <label-offline>
+
+; Available tokens:
+;   %artist%
+;   %album-artist%
+;   %album%
+;   %date%
+;   %title%
+; Default: %artist% - %title%
+label-song =  "%artist% - %title%"
+label-song-maxlen = 25
+label-song-ellipsis = true
+
+; Available tokens:
+;   %elapsed%
+;   %total%
+; Default: %elapsed% / %total%
+;;abel-time = %elapsed% / %total%
+
+; Available tokens:
+;   None
+label-offline = "MPD is offline"
+
+; Only applies if <icon-X> is used
+icon-play = 
+icon-pause = 
+icon-stop = 
+icon-prev = 
+icon-next = 
+icon-seekb = ⏪
+icon-seekf = ⏩
+icon-random = 🔀
+icon-repeat = 🔁
+icon-repeatone = 🔂
+icon-single = 🔂
+icon-consume = ✀
+
+; Used to display the state of random/repeat/repeatone/single
+; Only applies if <icon-[random|repeat|repeatone|single]> is used
+;;toggle-on-foreground = #ff
+;;toggle-off-foreground = #55
+
+; Only applies if <bar-progress> is used
+;;bar-progress-width = 45
+;;bar-progress-indicator = |
+;;bar-progress-fill = ─
+;;bar-progress-empty = ─
+
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+
+[module/window_switch]
+type = custom/text
+content =  Switch
+
+; "content" has the same properties as "format-NAME"
+;;content-background = #000
+;;content-foreground = #fff
+;;content-padding = 4
+
+; "click-(left|middle|right)" will be executed using "/usr/bin/env sh -c $COMMAND"
+click-left = skippy-xd
+click-middle = skippy-xd
+click-right = ~/.config/polybar/scripts/windows
+
+; "scroll-(up|down)" will be executed using "/usr/bin/env sh -c $COMMAND"
+;;scroll-up = skippy-xd
+;;scroll-down = skippy-xd
+
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+
+[module/workspaces]
+type = internal/xworkspaces
+
+; Only show workspaces defined on the same output as the bar
+;
+; Useful if you want to show monitor specific workspaces
+; on different bars
+;
+; Default: false
+pin-workspaces = true
+
+; Create click handler used to focus desktop
+; Default: true
+enable-click = true
+
+; Create scroll handlers used to cycle desktops
+; Default: true
+enable-scroll = true
+
+; icon-[0-9]+ = <desktop-name>;<icon>
+; NOTE: The desktop name needs to match the name configured by the WM
+; You can get a list of the defined desktops using:
+; $ xprop -root _NET_DESKTOP_NAMES
+icon-0 = TTY;
+icon-1 = WEB;
+icon-2 = LAB;
+icon-3 = MED;
+;icon-4 = 5;
+icon-default = 
+
+; Available tags:
+;   <label-monitor>
+;   <label-state> - gets replaced with <label-(active|urgent|occupied|empty)>
+; Default: <label-state>
+format = <label-state>
+format-padding = 0
+
+; Available tokens:
+;   %name%
+; Default: %name%
+label-monitor = %name%
+
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+; Default: %icon%  %name%
+label-active = %name% %icon%
+#label-active-foreground = ${color.ac}
+label-active-foreground = #B158FF
+label-active-background = ${color.bg}
+;;label-active-underline = ${color.ac}
+
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+; Default: %icon%  %name%
+label-occupied = %icon%
+label-occupied-underline = ${color.fg}
+
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+; Default: %icon%  %name%
+label-urgent = %icon%
+label-urgent-foreground = ${color.red}
+label-urgent-background = ${color.bg}
+;;label-urgent-underline = ${color.red}
+
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+; Default: %icon%  %name%
+label-empty = %icon%
+label-empty-foreground = ${color.fg}
+
+label-active-padding = 1
+label-urgent-padding = 1
+label-occupied-padding = 1
+label-empty-padding = 1
+
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+
+[module/menu]
+type = custom/menu
+
+; If true, <label-toggle> will be to the left of the menu items (default).
+; If false, it will be on the right of all the items.
+expand-right = true
+
+; "menu-LEVEL-N" has the same properties as "label-NAME" with
+; the additional "exec" property
+;
+; Available exec commands:
+;   menu-open-LEVEL
+;   menu-close
+; Other commands will be executed using "/usr/bin/env sh -c $COMMAND"
+menu-0-0 = Menu
+menu-0-0-exec = ~/.config/polybar/scripts/launcher &
+menu-0-1 = Files
+menu-0-1-exec = thunar &
+menu-0-2 = Terminal
+menu-0-2-exec = urxvt &
+menu-0-3 = Browser
+menu-0-3-exec = firefox &
+menu-0-4 = Pavucontrol
+menu-0-4-exec = pavucontrol &
+
+
+; Available tags:
+;   <label-toggle> (default) - gets replaced with <label-(open|close)>
+;   <menu> (default)
+; Note that if you use <label-toggle> you must also include
+; the definition for <label-open>
+
+;;format = <label-toggle> <menu>
+;;format-prefix = ${menu.icon-menu}
+format-spacing = 1 
+
+label-open = 
+label-close = 
+
+
+; Optional item separator
+; Default: none
+label-separator = |
+
+#label-open-foreground = ${color.ac}
+label-open-foreground = ${colors.foreground}
+#label-open-foreground = #B158FF
+#label-close-foreground = ${colors.foreground}
+label-close-foreground = ${colors.foreground}
+label-separator-foreground = #7F2FC4
+
+[module/sysmenu]
+type = custom/text
+content = 
+
+; "content" has the same properties as "format-NAME"
+;;content-background = #000
+#content-foreground = ${color.ac}
+content-foreground = ${colors.foreground}
+;;content-padding = 4
+
+; "click-(left|middle|right)" will be executed using "/usr/bin/env sh -c $COMMAND"
+click-left = ~/.config/polybar/scripts/powermenu
+;;click-middle = ~/.config/polybar/scripts/powermenu
+click-right = ~/.config/polybar/scripts/powermenu-alt
+
+; "scroll-(up|down)" will be executed using "/usr/bin/env sh -c $COMMAND"
+;;scroll-up = ~/.config/polybar/scripts/powermenu
+;;scroll-down = ~/.config/polybar/scripts/powermenu
+
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+
+[module/pavolume]
+type = custom/script
+tail = true
+label = %output%
+exec = ~/.config/polybar/scripts/pavolume.sh --listen
+click-right = exec pavucontrol
+click-left = ~/.config/polybar/scripts/pavolume.sh --togmute
+scroll-up = ~/.config/polybar/scripts/pavolume.sh --up
+scroll-down = ~/.config/polybar/scripts/pavolume.sh --down
+;format-underline = '#<COLOR1>'
+format-foreground = ${colors.foreground}
+format-background = ${colors.background}
+
+[module/xwindow]
+type = internal/xwindow
+format-background = ${colors.active}
+format-padding = 1
+label = %title:0:25: ...%
+
+[module/bspwm]
+type = internal/bspwm
+
+enable-click = true
+enable-scroll = true
+reverse-scroll = true
+pin-workspaces = true
+
+ws-icon-0 = 1;
+ws-icon-1 = 2;
+ws-icon-2 = 3;
+ws-icon-3 = 4;
+ws-icon-4 = 5;
+ws-icon-5 = 6;
+ws-icon-6 = 7;
+ws-icon-7 = 8;
+ws-icon-8 = 9;
+ws-icon-9 = 10;
+ws-icon-default = " "
+
+format = <label-state> <label-mode>
+
+label-focused = %icon%
+label-focused-background = ${colors.background}
+;label-focused-underline= #6790eb
+label-focused-underline= ${colors.foreground}
+label-focused-padding = 4
+label-focused-foreground = ${colors.foreground}
+
+label-occupied = %icon%
+label-occupied-padding = 2
+label-occupied-background = ${colors.background}
+
+label-urgent = %icon%
+label-urgent-padding = 2
+
+label-empty = %icon%
+label-empty-foreground = ${colors.foreground}
+label-empty-padding = 2
+label-empty-background = ${colors.background}
+label-monocle = "  "
+label-monocle-foreground = ${colors.foreground}
+label-tiled = "  "
+label-tiled-foreground = ${colors.foreground}
+label-fullscreen = "  "
+label-fullscreen-foreground = ${colors.foreground}
+label-floating = "  "
+label-floating-foreground = ${colors.foreground}
+label-pseudotiled = "  "
+label-pseudotiled-foreground = ${colors.foreground}
+label-locked = "  "
+label-locked-foreground = ${colors.foreground}
+label-sticky = "  "
+label-sticky-foreground = ${colors.foreground}
+label-private =  "     "
+label-private-foreground = ${colors.foreground}
+
+; Separator in between workspaces
+;label-separator = |
+;label-separator-padding = 10
+;label-separator-foreground = #ffb52a
+
+format-foreground = ${colors.foreground}
+format-background = ${colors.background}
+
+[module/eth]
+type = internal/network
+interface = enp0s25
+interval = 3.0
+
+format-connected =  <label-connected>
+format-connected-padding = 1
+format-connected-background = ${colors.active}
+label-connected = %local_ip%
+
+
+[module/date]
+type = internal/date
+
+; Seconds to sleep between updates
+interval = 1.0
+
+; See "http://en.cppreference.com/w/cpp/io/manip/put_time" for details on how to format the date string
+; NOTE: if you want to use syntax tags here you need to use %%{...}
+;;date = %Y-%m-%d%
+
+; Optional time format
+time =  %I:%M %p
+
+; if `date-alt` or `time-alt` is defined, clicking
+; the module will toggle between formats
+;;date-alt = %A, %d %B %Y
+time-alt =  %Y-%m-%d%
+
+; Available tags:
+;   <label> (default)
+format = <label>
+
+; Available tokens:
+;   %date%
+;   %time%
+; Default: %date%
+label = %time%
+
+[module/volume]
+type = internal/alsa
+
+format-volume = <ramp-volume> <label-volume>
+format-volume-padding = 1
+format-volume-background = ${colors.active}
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
+ramp-volume-3 = 
+ramp-volume-foreground = ${colors.foreground}
+
+format-muted-prefix = " "
+format-muted-foreground = ${colors.background}
+format-muted-background = ${colors.error}
+label-muted = MUTED
+format-muted-padding = 1
+
+[module/battery]
+type = internal/battery
+battery = BAT0
+adapter = ADP1
+full-at = 100
+
+format-charging =   <animation-charging> <label-charging>
+format-charging-padding = 1
+format-discharging-padding = 1
+format-discharging = <ramp-capacity> <label-discharging>
+format-full = <label-full> <ramp-capacity>
+format-full-padding = 1
+format-full-background = ${colors.active}
+
+ramp-capacity-0 = 
+ramp-capacity-1 =  
+ramp-capacity-2 =  
+ramp-capacity-3 = 
+ramp-capacity-4 =  
+ramp-capacity-foreground = ${colors.foreground}
+
+animation-charging-foreground = ${colors.foreground}
+animation-charging-framerate = 500
+animation-charging-0 = 
+animation-charging-1 =  
+animation-charging-2 =  
+animation-charging-3 = 
+animation-charging-4 =  
+format-charging-background = ${colors.highlight}
+format-discharging-background = ${colors.active}
+
+[settings]
+screenchange-reload = true
+
+[global/wm]
+margin-top = 5
+margin-bottom = 0
+
+; vim:ft=dosini
